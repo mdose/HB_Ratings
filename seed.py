@@ -46,8 +46,9 @@ def load_movies():
         row = row.split("|")
         movie_id, title, released_str, imdb_url = row[:4]
 
+        ### In Process, fix datetime delima
         if released_str:
-            released_at = datetime.datetime.strptime(released_str, "%d-%b-%Y")
+            released_at = datetime.strptime(released_str, "%d-%b-%Y")
         else:
             released_at = None
 

@@ -15,6 +15,10 @@ db = SQLAlchemy()
 class User(db.Model):
     """User of ratings website."""
 
+    def __repr__(self):
+
+        return "<User user_id=%s email=%s>" % (self.user_id, self.email)
+
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)

@@ -54,6 +54,7 @@ def load_movies():
         title = title.split(" ")
         title = title[:-1]
         title = " ".join(title)
+        title = title.decode("latin-1")
 
         movie = Movie(movie_id=movie_id,
                       title=title,

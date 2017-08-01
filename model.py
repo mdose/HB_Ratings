@@ -32,6 +32,11 @@ class User(db.Model):
 class Movie(db.Model):
     """Movies"""
 
+    def __repr__(self):
+
+        return "<Movie movie_id=%s title=%s released_at=%s imdb_url=%s>" % (
+            self.movie_id, self.title, self.released_at, self.imdb_url)
+
     __tablename__ = "movies"
 
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -42,6 +47,11 @@ class Movie(db.Model):
 
 class Rating(db.Model):
     """Ratings"""
+
+    def __repr__(self):
+
+        return "<Rating rating_id=%s movie_id=%s user_id=%s score=%s>" % (
+            self.rating_id, self.movie_id, self.user_id, self.score)
 
     __tablename__ = "ratings"
 

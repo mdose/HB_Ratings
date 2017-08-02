@@ -2,7 +2,7 @@
 {% block content %}
 
     <h2>Please Sign Up</h2>
-    <form action="/register">
+    <form action="/register", methods=["GET"]>
     Email: <input type="text" name="email">
     <br>
     Password: <input type="text" name="password">

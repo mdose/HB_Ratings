@@ -37,13 +37,35 @@ def user_list():
 def register_form():
     """Getting User Info from form"""
 
+    email = request.args.get("email")
+    password = request.args.get("password")
+
     return render_template("register_form.html")
 
 @app.route("/register", methods=["POST"])
 def register_process():
     """Storing User Info"""
 
-    return redirect('/')
+    email = request.form.get("email")
+    password = register.form.get("password")
+
+    if User.query.filter_by(email=email).first():
+        return "You signed up already DUMB DUMB"
+    else:
+        new_user = User(email=email, password=password)
+        db.session.add(new_user)
+        db.sesion.commit()
+        return "Yay! you can now pass judgement."
+    # sql = """INSERT INTO users (email, password)
+    #          VALUES (:email, :password)
+    #       """
+
+    # db.session.execute(sql, 
+    #                    {'email': email,
+    #                     'password': password})
+    
+
+    # return redirect('/')
 
 
 

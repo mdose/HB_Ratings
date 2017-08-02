@@ -48,11 +48,12 @@ def register_process():
     password = request.form.get("password")
 
     if User.query.filter_by(email=email).first():
-        print "You signed up already DUMB DUMB"
+        flash("You are already signed up, please log in.")
     else:
         new_user = User(email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
+        flash('You were successfully logged in.')
 
     return redirect('/')
 
@@ -69,5 +70,4 @@ if __name__ == "__main__":
     DebugToolbarExtension(app)
 
 
-    
     app.run(port=5000, host='0.0.0.0')

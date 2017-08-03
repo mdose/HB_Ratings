@@ -8,13 +8,14 @@
   Ratings
   <hr>
 
-  {% block content %}
-  content goes here
   <ul class="flashes">
   {% for message in get_flashed_messages() %}
     <li>{{ message }}</li>
   {% endfor %}
   </ul>
+  <button><a href="/logout">Logout </a></button>
+
+  {% block content %}
 
   {% endblock %}
 

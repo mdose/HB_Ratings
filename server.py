@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, jsonify
+
 from flask import (Flask, render_template, redirect, request, flash, session)
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -23,8 +23,9 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     """Homepage."""
-    a = jsonify([1,3])
+    print session
     return render_template("homepage.html")
+
 
 @app.route('/users')
 def user_list():
@@ -33,16 +34,19 @@ def user_list():
     users = User.query.all()
     return render_template("user_list.html", users=users)
 
+
 @app.route('/register', methods=["GET"])
 def register_form():
     """Getting User Info from form"""
 
-
     return render_template("register_form.html")
 
+
 @app.route("/register", methods=["POST"])
-def register_process():
+def process_registration_form():
     """Storing User Info"""
+    print "I've made it to the post method!"
+    #error = None
 
     email = request.form.get("email")
     password = request.form.get("password")
@@ -53,9 +57,47 @@ def register_process():
         new_user = User(email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
+        session['current_user'] = new_user.user_id
         flash('You were successfully logged in.')
 
     return redirect('/')
+
+
+@app.route("/login", methods=["GET"])
+def login_form():
+    """Display login form. Weeeeee."""
+
+    return render_template("login_form.html")
+
+
+@app.route("/login", methods=["POST"])
+def process_login_form():
+
+    email = request.form['email']
+    password = request.form['password']
+    user = User.query.filter(User.email == email).first()
+
+    # print user.email, user.password
+
+    if user and user.email == email and user.password == password:
+        print session
+        session['current_user'] = user.user_id
+        print session
+        flash("Logged in as %s" % user.user_id)
+        print session
+        return redirect("/")
+    else:
+        flash("Incorrect user or password.")
+        return redirect("/login")
+
+
+@app.route("/logout")
+def logout():
+    """Logout"""
+
+    del(session['current_user'])
+
+    return render_template("logout.html")
 
 
 if __name__ == "__main__":

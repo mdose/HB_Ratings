@@ -100,6 +100,20 @@ def logout():
     return render_template("logout.html")
 
 
+@app.route("/users/<user_id>")
+def user(user_id):
+    """Generates the profile page for each user in db."""
+
+    user = User.query.filter_by(user_id=user_id).first()
+    if user == None:
+        flash("User %s not found." % user_id)
+        return redirect("/users")
+
+    # info = {'age': user.age, 'zipcode': user.zipcode, 'movie': user.ratings.movie_id, "score": user.ratings.score}
+    # print info["movie"], info["score"]
+    return render_template("profile.html",
+                          user=user)
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
